@@ -1,25 +1,26 @@
-# TÍTULO DO PROJETO
+# Market Assistant
 
-`CURSO`
+`Tecnologia em Análise e Desenvolvimento de Sistemas`
 
-`DISCIPLINA`
+`Trabalho Interdisciplinar: Aplicações Inovadoras`
 
-`SEMESTRE`
+`5º (quinto) Semestre`
 
-Descrever resumidamente, em um ou dois parágrafos, o projeto que está sendo desenvolvido.
+Projeto consiste em uma ferramenta para auxiliar planejamento, execução e consulta de compras do usuário, inicialmente focado para compras de supermercado, mas genérico o suficiente para qualquer tipo de carrinho de compras.
 
-ODS Alinhados:
+O objetivo é prover uma ferramenta que auxilie a criar listas de compras, selecionando produtos oficiais pré existentes ou produtos novos customizados para o usuário, além de permitir validar em tempo real o valor dos itens selecionados, inserindo quatidades, escaneando código de barras, e vendo comparações de preços do mesmo produto nas últimas compras, sabendo se o preço atual está mais caro ou não.
+
+ODS Alinhados: ODS 4 e 8 - Educação de Qualidade e Trabalho Descente e Crescimento Econômico
 
 ## Integrantes
 
-* Nome completo do aluno 1
-* Nome completo do aluno 2
-* Nome completo do aluno 3
-* Nome completo do aluno 4
+* Gabriel dos Santos Lopes de Araujo
+* Marcos Vinícius Soares Guimarães
+* Matheus Dias Rodrigues de Sena
 
 ## Orientador
 
-* Nome completo do professor 1
+* Juliana Padilha
 
 ## Instruções de utilização
 
