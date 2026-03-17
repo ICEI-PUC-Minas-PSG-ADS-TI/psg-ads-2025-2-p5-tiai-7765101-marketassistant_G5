@@ -1,0 +1,17 @@
+name: marketassistant
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: market_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: market_db
+      POSTGRES_USER: market_user
+      POSTGRES_PASSWORD: market_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

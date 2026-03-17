@@ -1,0 +1,25 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@theme {
+  --font-sans: "Segoe UI", sans-serif;
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  background:
+    radial-gradient(circle at top, rgba(251, 191, 36, 0.28), transparent 30%),
+    linear-gradient(180deg, #fdf8ef 0%, #f4efe4 100%);
+  color: #1f2937;
+}
+
+#root {
+  min-height: 100vh;
+}

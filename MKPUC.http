@@ -1,0 +1,6 @@
+@MKPUC_HostAddress = http://localhost:5273
+
+GET {{MKPUC_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
