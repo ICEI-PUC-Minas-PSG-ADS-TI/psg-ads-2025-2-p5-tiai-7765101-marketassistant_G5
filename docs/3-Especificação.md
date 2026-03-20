@@ -29,13 +29,13 @@ Os **Requisitos Funcionais (RF)** descrevem o que o sistema deve fazer.
 
 | ID    | Descrição do Requisito | Prioridade |
 |-------|------------------------|------------|
-| RF-01 | O sistema deve permitir que os usuários criem uma conta informando nome, e-mail, senha e endereço. | 🔴 ALTA |
-| RF-02 | O sistema deve permitir que os usuários adicionem produtos ao carrinho de compras. | 🟡 MÉDIA |
-| RF-03 | (Descreva aqui o requisito funcional 3 do seu sistema) | (Alta/Média/Baixa) |
-| RF-04 | (Descreva aqui o requisito funcional 4 do seu sistema) | (Alta/Média/Baixa) |
-| RF-05 | (Descreva aqui o requisito funcional 5 do seu sistema) | (Alta/Média/Baixa) |
-| RF-06 | (Descreva aqui o requisito funcional 6 do seu sistema) | (Alta/Média/Baixa) |
-| RF-07 | (Descreva aqui o requisito funcional 7 do seu sistema) | (Alta/Média/Baixa) |
+| RF-01 | O sistema deve permitir que o usuário realize cadastro informando dados básicos (ex: nome, e-mail e senha). | 🔴 ALTA |
+| RF-02 | O sistema deve validar se todos os campos obrigatórios do cadastro foram preenchidos corretamente antes de enviar. | 🔴 ALTA  |
+| RF-03 | O sistema deve validar se o e-mail informado possui um formato válido. | 🔴 ALTA |
+| RF-04 | O sistema deve permitir que o usuário se cadastre/autentique utilizando uma conta Google. | 🔴 ALTA |
+| RF-05 | O sistema deve armazenar os dados do usuário no banco de dados após cadastro bem-sucedido. | 🔴 ALTA |
+| RF-06 | O sistema não deve permitir cadastro de usuários com e-mails já existentes. | 🔴 ALTA |
+| RF-07 | (Descreva aqui o requisito funcional 7 do seu sistema) | 🟡 MÉDIA |
 | RF-08 | (Descreva aqui o requisito funcional 8 do seu sistema) | (Alta/Média/Baixa) |
 | RF-09 | (Descreva aqui o requisito funcional 9 do seu sistema) | (Alta/Média/Baixa) |
 | RF-10 | (Descreva aqui o requisito funcional 10 do seu sistema) | (Alta/Média/Baixa) |
@@ -44,52 +44,34 @@ Os **Requisitos Funcionais (RF)** descrevem o que o sistema deve fazer.
 
 # 3.2 Histórias de Usuário
 
-Cada história deve seguir o padrão ensinado na disciplina:
-
-> **Como** [persona],  
-> **eu quero** [funcionalidade],  
-> **para que** [benefício].
-
-⚠️ **ATENÇÃO:**  
-Cada História de Usuário deve estar associada a um Requisito Funcional específico (RF-XX).
-
----
-
-## Exemplos
-
-**História 1 (relacionada ao RF-01):**  
-Como usuário, quero registrar minhas tarefas para não esquecer de fazê-las.
-
-**História 2 (relacionada ao RF-02):**  
-Como administrador, quero alterar permissões para controlar o acesso ao sistema.
-
 ---
 
 ## Histórias do Projeto
 
 ---
+## Cadastro
 
 ### História 1 (relacionada ao RF-01)
 
-Como __________________________________________  
-Eu quero _______________________________________  
-Para que _______________________________________
+Como usuário novo,  
+Eu quero me cadastrar no sistema informando meus dados básicos, 
+Para que poder acessar a aplicação e gerenciar minhas compras.
 
 ---
 
-### História 2 (relacionada ao RF-02)
+### História 2 (relacionada ao RF-02 e RF-03)
 
-Como __________________________________________  
-Eu quero _______________________________________  
-Para que _______________________________________
+Como usuário,  
+Eu quero que o sistema valide os dados que eu informo no cadastro,  
+Para que garantir que minhas informações estejam corretas e evitar erros no acesso.
 
 ---
 
-### História 3 (relacionada ao RF-__)
+### História 3 (relacionada ao RF-04)
 
-Como __________________________________________  
-Eu quero _______________________________________  
-Para que _______________________________________
+Como usuário,  
+Eu quero me cadastrar ou entrar utilizando minha conta Google,  
+Para que acessar o sistema de forma mais rápida e prática, sem precisar criar uma nova senha.
 
 ---
 
@@ -115,12 +97,12 @@ Eles garantem a qualidade da solução.
 
 | ID     | Descrição do Requisito | Prioridade |
 |--------|------------------------|------------|
-| RNF-01 | O sistema deve carregar as páginas em até 3 segundos. | 🟡 MÉDIA |
-| RNF-02 | O sistema deve proteger as informações dos clientes por meio de criptografia. | 🔴 ALTA |
-| RNF-03 | (Descreva aqui o requisito não funcional 3 do seu sistema) | (Alta/Média/Baixa) |
-| RNF-04 | (Descreva aqui o requisito não funcional 4 do seu sistema) | (Alta/Média/Baixa) |
-| RNF-05 | (Descreva aqui o requisito não funcional 5 do seu sistema) | (Alta/Média/Baixa) |
-| RNF-06 | (Descreva aqui o requisito não funcional 6 do seu sistema) | (Alta/Média/Baixa) |
+| RNF-01 | O sistema deve responder às requisições de cadastro em até 3 segundos. | 🔴 ALTA |
+| RNF-02 | As senhas dos usuários devem ser armazenadas de forma criptografada. | 🔴 ALTA |
+| RNF-03 | O sistema deve estar disponível para cadastro 24/7, salvo manutenções programadas. | 🟡 MÉDIA |
+| RNF-04 | O sistema deve funcionar em navegadores modernos (Chrome, Edge, etc.). | 🟡 MÉDIA |
+| RNF-05 | O sistema deve suportar múltiplos usuários realizando cadastro simultaneamente. | 🟡 MÉDIA |
+| RNF-06 | A autenticação via Google deve utilizar protocolos seguros | 🔴 ALTA |
 
 ---
 
