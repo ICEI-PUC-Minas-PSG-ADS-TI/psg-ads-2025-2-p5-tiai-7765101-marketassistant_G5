@@ -36,15 +36,11 @@ Descreva as tecnologias, linguagens, frameworks, bibliotecas e serviços escolhi
 
 | Dimensão | Tecnologia Escolhida |
 |----------|----------------------|
-| Banco de Dados (SGBD) | Ex: SQL Server, PostgreSQL ou MongoDB |
-| Back-end (API) | Ex: C# (.NET Core) |
-| Front-end / Mobile | Ex: HTML + CSS + JavaScript, React ou Flutter |
-| Hospedagem / Deploy | Ex: Azure, AWS, Render ou Railway |
+| Banco de Dados (SGBD) | PostgreSQL |
+| Back-end (API) | C# (.NET Core) |
+| Front-end / Mobile | React, Typescript, Tailwind|
+| Hospedagem / Deploy | Em Análise (Observando opções) |
 | Gestão e Versionamento | GitHub e GitHub Projects (Kanban) |
-
- ⚠️ **Observação:**
- - GitHub Pages não executa back-end.
- - Utilize apenas tecnologias realmente implementadas.
 
 ---
 
@@ -78,8 +74,6 @@ Representação simplificada do Wireframe:
 ### 📎 Inserir AQUI Wireframes/ Mockups do Projeto de Software
 
 🚨 O grupo deverá inserir aqui a imagem
-
-
 
 ---
 
