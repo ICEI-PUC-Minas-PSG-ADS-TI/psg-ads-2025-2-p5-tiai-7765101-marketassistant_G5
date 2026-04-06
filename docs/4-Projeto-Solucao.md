@@ -21,18 +21,12 @@ Semelhante à imagem abaixo:
 ![Exemplo de Arquitetura](https://uds.com.br/blog/wp-content/uploads/2024/09/Imagem-1-Comparativo-ilustrativo-das-diferencas-entre-front-end-e-back-end.jpg)
 
 
-
  **Fonte:** [Guia Completo de Desenvolvimento de Software - UDS](https://uds.com.br/blog/desenvolvimento-de-software-guia-completo/) <br><br>
  
  ### 📎 Inserir o Diagrama de Arquitetura do Projeto do Grupo
 🚨 O grupo deverá inserir aqui a imagem
 
-
----
-🔧**Ferramentas recomendadas:**
-- Draw.io
-- Lucidchart
-- Figma
+![Exemplo de Arquitetura](https://drive.google.com/uc?export=view&id=1UGYk4cfXBTrfvGgDlrDyKn3siiIXQxJm)
 
 ---
 
