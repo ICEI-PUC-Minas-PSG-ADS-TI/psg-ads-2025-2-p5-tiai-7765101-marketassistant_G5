@@ -99,49 +99,266 @@ A documentação do banco seguirá a abordagem de **entrega contínua**, sendo e
 
 ### 4.4.1 Script Físico (Entrega na Sprint 2 - MVP)
 
-Para a primeira fatia vertical (MVP), o Squad deverá entregar o **script de criação das tabelas ou coleções utilizadas**.
-
-#### 🔹 Para Banco Relacional (SQL)
-
-Incluir:
-
-- Comandos `CREATE TABLE`
-- Definição de chave primária (PK)
-- Definição de chaves estrangeiras (FK)
-
-**Exemplo:**
-
 ```sql
-CREATE TABLE Usuario (
-    Id INT PRIMARY KEY,
-    Nome VARCHAR(100),
-    Email VARCHAR(150) UNIQUE,
-    Senha VARCHAR(200)
+CREATE TABLE IF NOT EXISTS "__EFMigrationsHistory" (
+    "MigrationId" character varying(150) NOT NULL,
+    "ProductVersion" character varying(32) NOT NULL,
+    CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY ("MigrationId")
 );
-```
 
----
+START TRANSACTION;
 
-### Para Banco NoSQL
+CREATE TABLE "UnitsOfMeasure" (
+    "Id" uuid NOT NULL,
+    "Name" text NOT NULL,
+    "Abbreviation" text NOT NULL,
+    CONSTRAINT "PK_UnitsOfMeasure" PRIMARY KEY ("Id")
+);
 
-Incluir a estrutura dos documentos JSON (Schema).
+CREATE TABLE "Users" (
+    "Id" uuid NOT NULL,
+    "Name" text NOT NULL,
+    "Email" text NOT NULL,
+    "GoogleId" text NOT NULL,
+    "Provider" text NOT NULL,
+    "CreatedAt" timestamp with time zone NOT NULL,
+    "UpdatedAt" timestamp with time zone NOT NULL,
+    CONSTRAINT "PK_Users" PRIMARY KEY ("Id")
+);
 
-**Exemplo:**
+CREATE TABLE "CustomProducts" (
+    "Id" uuid NOT NULL,
+    "Name" text NOT NULL,
+    "Description" text,
+    "UnitOfMeasureId" uuid,
+    CONSTRAINT "PK_CustomProducts" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_CustomProducts_UnitsOfMeasure_UnitOfMeasureId" FOREIGN KEY ("UnitOfMeasureId") REFERENCES "UnitsOfMeasure" ("Id")
+);
 
-```json
-{
-  "nome": "João Silva",
-  "email": "joao@email.com",
-  "senha": "hash_da_senha"
-}
-```
+CREATE TABLE "OfficialProducts" (
+    "Id" uuid NOT NULL,
+    "Name" text NOT NULL,
+    "Description" text,
+    "UnitOfMeasureId" uuid,
+    "ImageUrl" text,
+    "Barcode" text,
+    CONSTRAINT "PK_OfficialProducts" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_OfficialProducts_UnitsOfMeasure_UnitOfMeasureId" FOREIGN KEY ("UnitOfMeasureId") REFERENCES "UnitsOfMeasure" ("Id")
+);
 
-### 📁 Obrigatório
+CREATE TABLE "ShoppingCarts" (
+    "Id" uuid NOT NULL,
+    "Name" text NOT NULL,
+    "CreatedAt" timestamp with time zone NOT NULL,
+    "CreatedByUserId" uuid NOT NULL,
+    CONSTRAINT "PK_ShoppingCarts" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_ShoppingCarts_Users_CreatedByUserId" FOREIGN KEY ("CreatedByUserId") REFERENCES "Users" ("Id") ON DELETE CASCADE
+);
 
-O arquivo .sql ou .js deve ser salvo na pasta: src/bd
+CREATE TABLE "CartItems" (
+    "Id" uuid NOT NULL,
+    "ShoppingCartId" uuid NOT NULL,
+    "OfficialProductId" uuid,
+    "CustomProductId" uuid,
+    "Quantity" numeric NOT NULL,
+    "CreatedAt" timestamp with time zone NOT NULL,
+    "UpdatedAt" timestamp with time zone NOT NULL,
+    CONSTRAINT "PK_CartItems" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_CartItems_CustomProducts_CustomProductId" FOREIGN KEY ("CustomProductId") REFERENCES "CustomProducts" ("Id"),
+    CONSTRAINT "FK_CartItems_OfficialProducts_OfficialProductId" FOREIGN KEY ("OfficialProductId") REFERENCES "OfficialProducts" ("Id"),
+    CONSTRAINT "FK_CartItems_ShoppingCarts_ShoppingCartId" FOREIGN KEY ("ShoppingCartId") REFERENCES "ShoppingCarts" ("Id") ON DELETE CASCADE
+);
 
- - É permitido colar um trecho do script no README apenas para visualização rápida.
- 
+CREATE TABLE "UserShoppingCarts" (
+    "Id" uuid NOT NULL,
+    "UserId" uuid NOT NULL,
+    "ShoppingCartId" uuid NOT NULL,
+    CONSTRAINT "PK_UserShoppingCarts" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_UserShoppingCarts_ShoppingCarts_ShoppingCartId" FOREIGN KEY ("ShoppingCartId") REFERENCES "ShoppingCarts" ("Id") ON DELETE CASCADE,
+    CONSTRAINT "FK_UserShoppingCarts_Users_UserId" FOREIGN KEY ("UserId") REFERENCES "Users" ("Id") ON DELETE CASCADE
+);
+
+CREATE INDEX "IX_CartItems_CustomProductId" ON "CartItems" ("CustomProductId");
+
+CREATE INDEX "IX_CartItems_OfficialProductId" ON "CartItems" ("OfficialProductId");
+
+CREATE INDEX "IX_CartItems_ShoppingCartId" ON "CartItems" ("ShoppingCartId");
+
+CREATE INDEX "IX_CustomProducts_UnitOfMeasureId" ON "CustomProducts" ("UnitOfMeasureId");
+
+CREATE INDEX "IX_OfficialProducts_UnitOfMeasureId" ON "OfficialProducts" ("UnitOfMeasureId");
+
+CREATE INDEX "IX_ShoppingCarts_CreatedByUserId" ON "ShoppingCarts" ("CreatedByUserId");
+
+CREATE INDEX "IX_UserShoppingCarts_ShoppingCartId" ON "UserShoppingCarts" ("ShoppingCartId");
+
+CREATE INDEX "IX_UserShoppingCarts_UserId" ON "UserShoppingCarts" ("UserId");
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20260121211914_InitialCreate', '8.0.0');
+
+COMMIT;
+
+START TRANSACTION;
+
+ALTER TABLE "UserShoppingCarts" ADD "CreatedAt" timestamp with time zone NOT NULL DEFAULT TIMESTAMPTZ '-infinity';
+
+ALTER TABLE "UserShoppingCarts" ADD "UpdatedAt" timestamp with time zone NOT NULL DEFAULT TIMESTAMPTZ '-infinity';
+
+ALTER TABLE "Users" ALTER COLUMN "Name" TYPE character varying(100);
+
+ALTER TABLE "Users" ALTER COLUMN "Email" TYPE character varying(150);
+
+ALTER TABLE "UnitsOfMeasure" ALTER COLUMN "Name" TYPE character varying(50);
+
+ALTER TABLE "UnitsOfMeasure" ALTER COLUMN "Abbreviation" TYPE character varying(25);
+
+ALTER TABLE "UnitsOfMeasure" ADD "CreatedAt" timestamp with time zone NOT NULL DEFAULT TIMESTAMPTZ '-infinity';
+
+ALTER TABLE "UnitsOfMeasure" ADD "UpdatedAt" timestamp with time zone NOT NULL DEFAULT TIMESTAMPTZ '-infinity';
+
+ALTER TABLE "ShoppingCarts" ALTER COLUMN "Name" TYPE character varying(100);
+
+ALTER TABLE "ShoppingCarts" ADD "UpdatedAt" timestamp with time zone NOT NULL DEFAULT TIMESTAMPTZ '-infinity';
+
+ALTER TABLE "OfficialProducts" ALTER COLUMN "Name" TYPE character varying(100);
+
+ALTER TABLE "OfficialProducts" ADD "CreatedAt" timestamp with time zone NOT NULL DEFAULT TIMESTAMPTZ '-infinity';
+
+ALTER TABLE "OfficialProducts" ADD "UpdatedAt" timestamp with time zone NOT NULL DEFAULT TIMESTAMPTZ '-infinity';
+
+ALTER TABLE "CustomProducts" ALTER COLUMN "Name" TYPE character varying(100);
+
+ALTER TABLE "CustomProducts" ADD "CreatedAt" timestamp with time zone NOT NULL DEFAULT TIMESTAMPTZ '-infinity';
+
+ALTER TABLE "CustomProducts" ADD "UpdatedAt" timestamp with time zone NOT NULL DEFAULT TIMESTAMPTZ '-infinity';
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20260122172326_AddBaseEntityAndEntityValidations', '8.0.0');
+
+COMMIT;
+
+START TRANSACTION;
+
+ALTER TABLE "CartItems" DROP CONSTRAINT "FK_CartItems_CustomProducts_CustomProductId";
+
+ALTER TABLE "CartItems" DROP CONSTRAINT "FK_CartItems_OfficialProducts_OfficialProductId";
+
+ALTER TABLE "CustomProducts" DROP CONSTRAINT "FK_CustomProducts_UnitsOfMeasure_UnitOfMeasureId";
+
+ALTER TABLE "OfficialProducts" DROP CONSTRAINT "FK_OfficialProducts_UnitsOfMeasure_UnitOfMeasureId";
+
+ALTER TABLE "ShoppingCarts" DROP CONSTRAINT "FK_ShoppingCarts_Users_CreatedByUserId";
+
+ALTER TABLE "Users" DROP COLUMN "GoogleId";
+
+ALTER TABLE "Users" DROP COLUMN "Provider";
+
+CREATE TABLE "UserProviders" (
+    "Id" uuid NOT NULL,
+    "Provider" character varying(50) NOT NULL,
+    "ProviderUserId" character varying(200) NOT NULL,
+    "UserId" uuid NOT NULL,
+    "CreatedAt" timestamp with time zone NOT NULL,
+    "UpdatedAt" timestamp with time zone NOT NULL,
+    CONSTRAINT "PK_UserProviders" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_UserProviders_Users_UserId" FOREIGN KEY ("UserId") REFERENCES "Users" ("Id") ON DELETE CASCADE
+);
+
+CREATE INDEX "IX_UserProviders_UserId" ON "UserProviders" ("UserId");
+
+ALTER TABLE "CartItems" ADD CONSTRAINT "FK_CartItems_CustomProducts_CustomProductId" FOREIGN KEY ("CustomProductId") REFERENCES "CustomProducts" ("Id") ON DELETE SET NULL;
+
+ALTER TABLE "CartItems" ADD CONSTRAINT "FK_CartItems_OfficialProducts_OfficialProductId" FOREIGN KEY ("OfficialProductId") REFERENCES "OfficialProducts" ("Id") ON DELETE SET NULL;
+
+ALTER TABLE "CustomProducts" ADD CONSTRAINT "FK_CustomProducts_UnitsOfMeasure_UnitOfMeasureId" FOREIGN KEY ("UnitOfMeasureId") REFERENCES "UnitsOfMeasure" ("Id") ON DELETE SET NULL;
+
+ALTER TABLE "OfficialProducts" ADD CONSTRAINT "FK_OfficialProducts_UnitsOfMeasure_UnitOfMeasureId" FOREIGN KEY ("UnitOfMeasureId") REFERENCES "UnitsOfMeasure" ("Id") ON DELETE SET NULL;      
+
+ALTER TABLE "ShoppingCarts" ADD CONSTRAINT "FK_ShoppingCarts_Users_CreatedByUserId" FOREIGN KEY ("CreatedByUserId") REFERENCES "Users" ("Id") ON DELETE RESTRICT;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20260131202129_AddUserAuthentication', '8.0.0');
+
+COMMIT;
+
+START TRANSACTION;
+
+CREATE UNIQUE INDEX "IX_Users_Email" ON "Users" ("Email");
+
+CREATE UNIQUE INDEX "IX_UserProviders_Provider_ProviderUserId" ON "UserProviders" ("Provider", "ProviderUserId");
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20260205213524_AddUserUniquenessConstraints', '8.0.0');
+
+COMMIT;
+
+START TRANSACTION;
+
+ALTER TABLE "CustomProducts" ADD "CreatedByUserId" uuid;
+
+CREATE INDEX "IX_CustomProducts_CreatedByUserId" ON "CustomProducts" ("CreatedByUserId");
+
+ALTER TABLE "CustomProducts" ADD CONSTRAINT "FK_CustomProducts_Users_CreatedByUserId" FOREIGN KEY ("CreatedByUserId") REFERENCES "Users" ("Id") ON DELETE RESTRICT;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20260320223445_AddCustomProductUserOwnership', '8.0.0');
+
+COMMIT;
+
+START TRANSACTION;
+
+ALTER TABLE "OfficialProducts" ADD "UnitQuantity" numeric;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20260327224614_AddOfficialProductUnitQuantity', '8.0.0');
+
+COMMIT;
+
+START TRANSACTION;
+
+ALTER TABLE "Users" ADD "IsAdmin" boolean NOT NULL DEFAULT FALSE;
+
+CREATE TABLE "OfficialProductRequests" (
+    "Id" uuid NOT NULL,
+    "OwnerId" uuid NOT NULL,
+    "CustomProductId" uuid NOT NULL,
+    "Status" integer NOT NULL,
+    "Name" text NOT NULL,
+    "Description" text,
+    "UnitOfMeasureId" uuid,
+    "UnitQuantity" numeric,
+    "ImageUrl" text,
+    "Barcode" text,
+    "RejectedComment" text,
+    "ReviewedByUserId" uuid,
+    "ReviewedAt" timestamp with time zone,
+    "OfficialProductId" uuid,
+    "CreatedAt" timestamp with time zone NOT NULL,
+    "UpdatedAt" timestamp with time zone NOT NULL,
+    CONSTRAINT "PK_OfficialProductRequests" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_OfficialProductRequests_CustomProducts_CustomProductId" FOREIGN KEY ("CustomProductId") REFERENCES "CustomProducts" ("Id") ON DELETE RESTRICT,
+    CONSTRAINT "FK_OfficialProductRequests_OfficialProducts_OfficialProductId" FOREIGN KEY ("OfficialProductId") REFERENCES "OfficialProducts" ("Id") ON DELETE SET NULL,
+    CONSTRAINT "FK_OfficialProductRequests_UnitsOfMeasure_UnitOfMeasureId" FOREIGN KEY ("UnitOfMeasureId") REFERENCES "UnitsOfMeasure" ("Id") ON DELETE SET NULL,
+    CONSTRAINT "FK_OfficialProductRequests_Users_OwnerId" FOREIGN KEY ("OwnerId") REFERENCES "Users" ("Id") ON DELETE RESTRICT,
+    CONSTRAINT "FK_OfficialProductRequests_Users_ReviewedByUserId" FOREIGN KEY ("ReviewedByUserId") REFERENCES "Users" ("Id") ON DELETE RESTRICT
+);
+
+CREATE UNIQUE INDEX "IX_OfficialProductRequests_CustomProductId" ON "OfficialProductRequests" ("CustomProductId") WHERE "Status" IN (1, 2);
+
+CREATE INDEX "IX_OfficialProductRequests_OfficialProductId" ON "OfficialProductRequests" ("OfficialProductId");
+
+CREATE INDEX "IX_OfficialProductRequests_OwnerId" ON "OfficialProductRequests" ("OwnerId");
+
+CREATE INDEX "IX_OfficialProductRequests_ReviewedByUserId" ON "OfficialProductRequests" ("ReviewedByUserId");
+
+CREATE INDEX "IX_OfficialProductRequests_UnitOfMeasureId" ON "OfficialProductRequests" ("UnitOfMeasureId");
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20260331223455_AddOfficialProductRequestWorkflow', '8.0.0');
+
+COMMIT;
+``` 
 ---
 ### 4.4.2 Representação do Modelo Físico de Dados (Entrega na Sprint 3 - Core)
 
