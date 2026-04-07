@@ -146,10 +146,10 @@ O projeto pode utilizar a aba **Projects** do GitHub, porém é **OBRIGATÓRIO p
 
 | Responsável | Papel | Tarefa | Início | Prazo | Status |
 |-------------|--------|--------|--------|--------|--------|
-|   Gabriel   |   👨‍💻  | Gerar Script do Banco de Dados | 17/03 | 06/04 | ❌ |
-|   Gabriel   |   👨‍💻  | Desenvolver Fatia 1 (BD + API + Tela) | 17/03 | 06/04 | ❌ |
-|   Marcos    |   📋  | Documentar Requisitos do MVP | 17/03 | 06/04 | ❌ |
-|   Matheus   |   🧪  | Revisão técnica e Merge | 17/04 | 06/04 | ❌ |
+|   Gabriel   |   👨‍💻  | Gerar Script do Banco de Dados | 17/03 | 06/04 | ✔️ |
+|   Gabriel   |   👨‍💻  | Desenvolver Fatia 1 (BD + API + Tela) | 17/03 | 06/04 | ✔️ |
+|   Marcos    |   📋  | Documentar Requisitos do MVP | 17/03 | 06/04 | ✔️ |
+|   Matheus   |   🧪  | Revisão técnica e Merge | 17/04 | 06/04 | ✔️ |
 
 ---
 
